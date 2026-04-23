@@ -1,0 +1,22 @@
+.git
+.gitignore
+.venv
+.pytest_cache
+__pycache__/
+*.py[cod]
+*.ipynb
+mlruns/
+notebooks/
+tests/
+
+# Ignore all raw data from build context (not needed at container runtime).
+data/raw/
+
+# Ignore processed datasets by default, then keep only runtime-required files.
+data/processed/*
+!data/processed/train_final.csv
+!data/processed/holdout_final.csv
+!data/processed/holdout_clean.csv
+
+# Keep context clean.
+data/predictions/

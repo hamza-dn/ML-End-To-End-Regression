@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir uv
+
+# Install UI runtime dependencies only.
+COPY requirements/docker-ui.txt ./requirements/docker-ui.txt
+RUN uv pip install --system --no-cache -r requirements/docker-ui.txt
+
+# UI runtime files.
+COPY ui_app.py ./ui_app.py
+COPY data/processed/holdout_final.csv ./data/processed/holdout_final.csv
+COPY data/processed/holdout_clean.csv ./data/processed/holdout_clean.csv
+
+EXPOSE 8501
+
+CMD ["streamlit", "run", "ui_app.py", "--server.address=0.0.0.0", "--server.port=8501"]

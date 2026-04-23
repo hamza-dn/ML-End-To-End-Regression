@@ -1,0 +1,20 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: housing-api
+    ports:
+      - "8000:8000"
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: housing-ui
+    ports:
+      - "8501:8501"
+    environment:
+      API_URL: http://api:8000/predict
+    depends_on:
+      - api
